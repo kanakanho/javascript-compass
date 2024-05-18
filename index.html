@@ -22,6 +22,7 @@
                     document.querySelector("#permit").addEventListener("click", permitDeviceOrientationForSafari);
 
                     window.addEventListener("deviceorientation", orientation, true);
+                    window.addEventListener("devicemotion", motion, true);
                 } else if (os == "android") {
                     window.addEventListener("deviceorientationabsolute", orientation, true);
                 } else {
@@ -123,6 +124,18 @@
                 return ret;
             }
 
+            // devicemotionイベントハンドラ
+            function motion(event) {
+                let acc = event.accelerationIncludingGravity;
+                let x = acc.x;
+                let y = acc.y;
+                let z = acc.z;
+
+                document.querySelector("#acc-x").innerHTML = x;
+                document.querySelector("#acc-y").innerHTML = y;
+                document.querySelector("#acc-z").innerHTML = z;
+            }
+
             // iPhone + Safariの場合はDeviceOrientation APIの使用許可をユーザに求める
             function permitDeviceOrientationForSafari() {
                 DeviceOrientationEvent.requestPermission()
@@ -144,6 +157,10 @@
             <li>【alpha】<span id="alpha"></span></li>
             <li>【beta】<span id="beta"></span></li>
             <li>【gamma】<span id="gamma"></span></li>
+            <!-- 既存のコード... -->
+            <li>【加速度X】<span id="acc-x"></span></li>
+            <li>【加速度Y】<span id="acc-y"></span></li>
+            <li>【加速度Z】<span id="acc-z"></span></li>
         </ul>
     </body>
 </html>
